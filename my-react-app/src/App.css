@@ -42,13 +42,14 @@
 }
 
 button {
-  background-color: #f7c945;
+  background-color: #52504b;
+  color: whitesmoke;
   font-family: Helvetica, sans-serif;
   font-weight: bold;
   width: 80%;
   align-self: center;
   font-size: 15px;
-  border-color: black;
+  border-color: rgb(243, 239, 239);
   border-width: 2px;
   height: 50px;
 }
@@ -62,8 +63,9 @@ table {
 }
 
 thead tr {
-  background-color: #f7c945;
-  text-align: left;
+  background-color: #33322f;
+  color: whitesmoke;
+  text-align: center;
 }
 
 th, td {
