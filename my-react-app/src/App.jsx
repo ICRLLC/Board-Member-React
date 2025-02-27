@@ -227,7 +227,7 @@ function App() {
         <div className="button-panel">
           <div style={{display: 'flex', flexDirection: 'row'}}>
             <img src={logo} style={{ width: "100px", alignContent: "center" }} alt="Logo" />
-            <p style={{marginLeft: "5px"}}><b>Instructions:</b> Enter the fields below to use the first two buttons. </p>
+            <p style={{marginLeft: "5px"}}><b>Instructions:</b> Choose a company from the dropdown, click a button for results.</p>
           </div>
           <div className="searchable-select">
             <ReactSelect
