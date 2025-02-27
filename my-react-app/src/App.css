@@ -48,10 +48,10 @@ button {
   font-weight: bold;
   width: 80%;
   align-self: center;
-  font-size: 15px;
+  font-size: 12px;
   border-color: rgb(243, 239, 239);
   border-width: 2px;
-  height: 50px;
+  height: 40px;
 }
 
 table {
@@ -106,7 +106,7 @@ tbody tr:nth-child(odd) {
   padding-top: 0;
   margin: 0;
   position: absolute;
-  width: 300px;
+  width: 200px;
 }
 
 .button:hover {
@@ -164,7 +164,7 @@ h3 {
   width: 80%;
   padding: 0px;
   margin: 0px;
-  font-size: 14px;
+  font-size: 12px;
   align-self: center;
 }
 
