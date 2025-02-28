@@ -28,6 +28,10 @@ function App() {
   }, []);
 
   const fetchMatrixData = () => {
+    if (selectedTicker == '') {
+      alert('Please select a company from the dropdown');
+      return;
+    }
     fetch(
       `http://localhost:${port}/api/board-member-matrix?ticker=${selectedTicker}&includeExecs=${includeExecs ? 1 : 0}`
     )
@@ -41,6 +45,10 @@ function App() {
   };
 
   const fetchCurrentCompanyData = () => {
+    if (selectedTicker == '') {
+      alert('Please select a company from the dropdown');
+      return;
+    }
     fetch(`http://localhost:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=1`)
       .then((response) => response.json())
       .then((data) => setCurrentCompanyData(data))
@@ -246,13 +254,13 @@ function App() {
             />
             <span>Include Executives</span>
           </label>
-          <button onClick={fetchMatrixData} className="button w-full">Fetch Overlapping Board Members</button>
-          <button onClick={fetchAllCompanyData} className="button w-full">Fetch Company Board Members</button>
+          <button onClick={fetchMatrixData}>Fetch Overlapping Board Members</button>
+          <button onClick={fetchAllCompanyData}>Fetch Company Board Members</button>
           <hr className='divider'/>
-          <button onClick={() => executeStoredProcedure("get-old-board-members")} className="button w-full">Get Old Board Members</button>
-          <button onClick={() => executeStoredProcedure("get-new-client-boards")} className="button w-full">Get Client New Boards</button>
-          <button onClick={() => executeStoredProcedure("get-long-term-board-members")} className="button w-full">Get Long Term Board Members</button>
-          <button onClick={() => executeStoredProcedure("get-board-high-turnover")} className="button w-full">Get Board High Turnover</button>
+          <button onClick={() => executeStoredProcedure("get-old-board-members")}>Get Old Board Members</button>
+          <button onClick={() => executeStoredProcedure("get-new-client-boards")}>Get Client New Boards</button>
+          <button onClick={() => executeStoredProcedure("get-long-term-board-members")}>Get Long Term Board Members</button>
+          <button onClick={() => executeStoredProcedure("get-board-high-turnover")}>Get Board High Turnover</button>
           <button onClick={exportToExcel} className="excel-button">Export to Excel</button>
         </div>
   
