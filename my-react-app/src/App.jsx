@@ -19,9 +19,12 @@ function App() {
   const [currentProcedure, setCurrentProcedure] = useState('');
 
   const port = 5002;
+  //const backend_host = 'STM-FCT01'
+  const backend_host = 'STM-FCT01'; // import.meta.env.REACT_BACKEND_HOST;
+//  const port = process.env.REACT_BACKEND_SERVER ;
 
   useEffect(() => {
-    fetch(`http://localhost:${port}/api/companies`)
+    fetch(`http://${backend_host}:${port}/api/companies`)
       .then((response) => response.json())
       .then((data) => setCompanies(data))
       .catch((error) => console.error('Error fetching companies:', error));
@@ -29,11 +32,11 @@ function App() {
 
   const fetchMatrixData = () => {
     if (selectedTicker == '') {
-      alert('Please select a company from the dropdown');
+      alert('Please select a company from the dropdown.');
       return;
     }
     fetch(
-      `http://localhost:${port}/api/board-member-matrix?ticker=${selectedTicker}&includeExecs=${includeExecs ? 1 : 0}`
+      `http://${backend_host}:${port}/api/board-member-matrix?ticker=${selectedTicker}&includeExecs=${includeExecs ? 1 : 0}`
     )
       .then((response) => response.json())
       .then((data) => fetchTransformedData(data))
@@ -49,7 +52,7 @@ function App() {
       alert('Please select a company from the dropdown');
       return;
     }
-    fetch(`http://localhost:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=1`)
+    fetch(`http://${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=1`)
       .then((response) => response.json())
       .then((data) => setCurrentCompanyData(data))
       .catch((error) => console.error('Error fetching companies:', error));
@@ -59,7 +62,7 @@ function App() {
   };
 
   const fetchPrevCompanyData = () => {
-    fetch(`http://localhost:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=0`)
+    fetch(`http://${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=0`)
       .then((response) => response.json())
       .then((data) => setPrevCompanyData(data))
       .catch((error) => console.error('Error fetching companies:', error));
@@ -115,7 +118,7 @@ function App() {
   const executeStoredProcedure = async (procedureName) => {
     try {
       const response = await fetch(
-        `http://localhost:${port}/api/${procedureName}`
+        `http://${backend_host}:${port}/api/${procedureName}`
       );
       const data = await response.json();
       setStoredProcedureData(data);
