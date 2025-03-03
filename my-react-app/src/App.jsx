@@ -129,16 +129,16 @@ function App() {
     setCurrentCompanyData([]);
     setPrevCompanyData([]);
     if (procedureName === "get-old-board-members") {
-      setCurrentProcedure("Old Board Members");
+      setCurrentProcedure("Aging Board Members");
     }
     if (procedureName === "get-new-client-boards") {
-      setCurrentProcedure("Client New Boards");
+      setCurrentProcedure("Client Joining New Boards");
     }
     if (procedureName === "get-long-term-board-members") {
       setCurrentProcedure("Long Term Board Members");
     }
     if (procedureName === "get-board-high-turnover") {
-      setCurrentProcedure("Board High Turnover");
+      setCurrentProcedure("Boards with High Turnover");
     }
   };
 
@@ -260,8 +260,8 @@ function App() {
           <button onClick={fetchMatrixData}>Fetch Overlapping Board Members</button>
           <button onClick={fetchAllCompanyData}>Fetch Company Board Members</button>
           <hr className='divider'/>
-          <button onClick={() => executeStoredProcedure("get-old-board-members")}>Get Aging Board Members</button>
           <button onClick={() => executeStoredProcedure("get-new-client-boards")}>Client Joining New Boards</button>
+          <button onClick={() => executeStoredProcedure("get-old-board-members")}>Get Aging Board Members</button>
           <button onClick={() => executeStoredProcedure("get-long-term-board-members")}>Long Term Board Members</button>
           <button onClick={() => executeStoredProcedure("get-board-high-turnover")}>High Turnover Companies</button>
           <button onClick={exportToExcel} className="excel-button">Export to Excel</button>
