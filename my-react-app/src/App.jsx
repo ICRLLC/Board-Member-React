@@ -260,10 +260,10 @@ function App() {
           <button onClick={fetchMatrixData}>Fetch Overlapping Board Members</button>
           <button onClick={fetchAllCompanyData}>Fetch Company Board Members</button>
           <hr className='divider'/>
-          <button onClick={() => executeStoredProcedure("get-old-board-members")}>Get Old Board Members</button>
-          <button onClick={() => executeStoredProcedure("get-new-client-boards")}>Get Client New Boards</button>
-          <button onClick={() => executeStoredProcedure("get-long-term-board-members")}>Get Long Term Board Members</button>
-          <button onClick={() => executeStoredProcedure("get-board-high-turnover")}>Get Board High Turnover</button>
+          <button onClick={() => executeStoredProcedure("get-old-board-members")}>Get Aging Board Members</button>
+          <button onClick={() => executeStoredProcedure("get-new-client-boards")}>Client Joining New Boards</button>
+          <button onClick={() => executeStoredProcedure("get-long-term-board-members")}>Long Term Board Members</button>
+          <button onClick={() => executeStoredProcedure("get-board-high-turnover")}>High Turnover Companies</button>
           <button onClick={exportToExcel} className="excel-button">Export to Excel</button>
         </div>
   
