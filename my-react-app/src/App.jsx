@@ -18,13 +18,14 @@ function App() {
   const [storedProcedureData, setStoredProcedureData] = useState(null);
   const [currentProcedure, setCurrentProcedure] = useState('');
 
-  const port = 5002;
+  const port = 496; //  5002;
   //const backend_host = 'STM-FCT01'
-  const backend_host = 'STM-FCT01'; // import.meta.env.REACT_BACKEND_HOST;
+  // const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
 //  const port = process.env.REACT_BACKEND_SERVER ;
 
   useEffect(() => {
-    fetch(`http://${backend_host}:${port}/api/companies`)
+    fetch(`https://${backend_host}:${port}/api/companies`)
       .then((response) => response.json())
       .then((data) => setCompanies(data))
       .catch((error) => console.error('Error fetching companies:', error));
@@ -36,7 +37,7 @@ function App() {
       return;
     }
     fetch(
-      `http://${backend_host}:${port}/api/board-member-matrix?ticker=${selectedTicker}&includeExecs=${includeExecs ? 1 : 0}`
+      `https://${backend_host}:${port}/api/board-member-matrix?ticker=${selectedTicker}&includeExecs=${includeExecs ? 1 : 0}`
     )
       .then((response) => response.json())
       .then((data) => fetchTransformedData(data))
@@ -52,7 +53,7 @@ function App() {
       alert('Please select a company from the dropdown');
       return;
     }
-    fetch(`http://${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=1`)
+    fetch(`https://${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=1`)
       .then((response) => response.json())
       .then((data) => setCurrentCompanyData(data))
       .catch((error) => console.error('Error fetching companies:', error));
@@ -62,7 +63,7 @@ function App() {
   };
 
   const fetchPrevCompanyData = () => {
-    fetch(`http://${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=0`)
+    fetch(`https://${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=0`)
       .then((response) => response.json())
       .then((data) => setPrevCompanyData(data))
       .catch((error) => console.error('Error fetching companies:', error));
@@ -118,7 +119,7 @@ function App() {
   const executeStoredProcedure = async (procedureName) => {
     try {
       const response = await fetch(
-        `http://${backend_host}:${port}/api/${procedureName}`
+        `https://${backend_host}:${port}/api/${procedureName}`
       );
       const data = await response.json();
       setStoredProcedureData(data);
