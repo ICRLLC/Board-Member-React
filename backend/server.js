@@ -74,6 +74,36 @@ app.get('/api/companies', async (req, res) => {
     }
   });
 
+  app.get('/api/get-company-board-members', async (req, res) => {
+    const { company } = req.query;
+      try {
+        let pool = await sql.connect(dbConfig);
+        let result = await pool
+          .request()
+          .input('company', sql.VarChar, company)
+          .query(`SELECT Name, Title FROM icr_bigd.dbo.vwBoardMembers WHERE CompanyName = @company`);
+        res.json(result.recordset);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching data');
+      }
+  });
+
+  app.get('/api/get-person-data', async (req, res) => {
+    const { name } = req.query;
+      try {
+        let pool = await sql.connect(dbConfig);
+        let result = await pool
+          .request()
+          .input('name', sql.VarChar, name)
+          .query(`SELECT Name, Ticker, CompanyName, Title, Sector, Industry, Compensation, isClient from icr_bigd.dbo.vwboardmembers where name = @name`);
+        res.json(result.recordset);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching data');
+      }
+  });
+
   app.get('/api/get-old-board-members', async (req, res) => {
     try {
       let pool = await sql.connect(dbConfig);
