@@ -20,10 +20,10 @@ function App() {
   const [personData, setPersonData] = useState([]);
   const [companyBoardMembers, setCompanyBoardMembers] = useState([]);
 
-  const port = 496; //  5002;
+  const port = 496; //  5002 | 496;
   //const backend_host = 'STM-FCT01'
   // const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
-  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+  const backend_host = "webapp.icrinc.com"; // import.meta.env.REACT_BACKEND_HOST; | localhost | webapp.icrinc.com
   //  const port = process.env.REACT_BACKEND_SERVER ;
 
   useEffect(() => {
@@ -66,6 +66,8 @@ function App() {
     setMatrixData([]);
     setStoredProcedureData([]);
     setCurrentProcedure("");
+    setCompanyBoardMembers([]);
+    setPersonData([]);
   };
 
   const fetchPrevCompanyData = () => {
@@ -78,6 +80,8 @@ function App() {
     setMatrixData([]);
     setStoredProcedureData([]);
     setCurrentProcedure("");
+    setCompanyBoardMembers([]);
+    setPersonData([]);
   };
 
   const fetchAllCompanyData = () => {
@@ -151,6 +155,8 @@ function App() {
     setMatrixData([]);
     setCurrentCompanyData([]);
     setPrevCompanyData([]);
+    setCompanyBoardMembers([]);
+    setPersonData([]);
     if (procedureName === "get-old-board-members") {
       setCurrentProcedure("Aging Board Members");
     }
@@ -415,7 +421,7 @@ function App() {
                     <th>Name</th>
                     {allCompanies.map((company, index) => (
                       <th
-                        style={{ cursor: 'pointer' }}
+                        style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
                         onClick={() => {
                           fetchCompanyBoardMembers(company);
                         }}
@@ -433,7 +439,7 @@ function App() {
                         <div className="container">
                           <span
                             className="trigger"
-                            style={{ cursor: 'pointer' }}
+                            style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
                             onClick={() => fetchPersonData(row.Name)}
                           >
                             {row.Name}
@@ -476,46 +482,7 @@ function App() {
             </div>
           )}
 
-          {personData.length > 0 && (
-            <div className="table-container">
-              <h3>
-                <u>Person Company Data</u>
-              </h3>
-              <table>
-                <tbody>
-                  <tr>
-                    <th>Name</th>
-                    <th>Ticker</th>
-                    <th>CompanyName</th>
-                    <th>Title</th>
-                    <th>Sector</th>
-                    <th>Industry</th>
-                    <th>Compensation</th>
-                    <th>IsClient</th>
-                  </tr>
-                  {personData.map((row, index) => (
-                    <tr key={index}>
-                      <td>{row.Name}</td>
-                      <td>{row.Ticker}</td>
-                      <td>{row.CompanyName}</td>
-                      <td>{row.Title}</td>
-                      <td>{row.Sector}</td>
-                      <td>{row.Industry}</td>
-                      <td>
-                      {row.Compensation
-                          ? `$${new Intl.NumberFormat("en-US", {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                            }).format(row.Compensation)}`
-                          : "-"}
-                      </td>
-                      <td>{row.isClient}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+
 
           {companyBoardMembers.length > 0 && (
             <div className="table-container">
@@ -559,7 +526,9 @@ function App() {
                 <tbody>
                   {currentCompanyData.map((row, index) => (
                     <tr key={index}>
-                      <td>{row.Name}</td>
+                      <td 
+                      style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                      onClick={() => fetchPersonData(row.Name)}>{row.Name}</td>
                       <td>{row.Ticker}</td>
                       <td>{row.Title}</td>
                       <td>{row.Age === 0 ? "Unknown" : row.Age}</td>
@@ -602,7 +571,9 @@ function App() {
                     <tbody>
                       {prevCompanyData.map((row, index) => (
                         <tr key={index}>
-                          <td>{row.Name}</td>
+                          <td 
+                          style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                          onClick={() => fetchPersonData(row.Name)}>{row.Name}</td>
                           <td>{row.Ticker}</td>
                           <td>{row.Title}</td>
                           <td>{row.Age}</td>
@@ -622,6 +593,46 @@ function App() {
                   </table>
                 </>
               )}
+            </div>
+          )}
+          {personData.length > 0 && (
+            <div className="table-container">
+              <h3>
+                <u>Person Company Data</u>
+              </h3>
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Name</th>
+                    <th>Ticker</th>
+                    <th>CompanyName</th>
+                    <th>Title</th>
+                    <th>Sector</th>
+                    <th>Industry</th>
+                    <th>Compensation</th>
+                    <th>IsClient</th>
+                  </tr>
+                  {personData.map((row, index) => (
+                    <tr key={index}>
+                      <td>{row.Name}</td>
+                      <td>{row.Ticker}</td>
+                      <td>{row.CompanyName}</td>
+                      <td>{row.Title}</td>
+                      <td>{row.Sector}</td>
+                      <td>{row.Industry}</td>
+                      <td>
+                      {row.Compensation
+                          ? `$${new Intl.NumberFormat("en-US", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            }).format(row.Compensation)}`
+                          : "-"}
+                      </td>
+                      <td>{row.isClient}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
