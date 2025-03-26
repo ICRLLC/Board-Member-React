@@ -20,6 +20,15 @@ function App() {
   const [personData, setPersonData] = useState([]);
   const [companyBoardMembers, setCompanyBoardMembers] = useState([]);
 
+// NEED TO CHANGE THESE to ENVIRONMENT VARIABLES
+//  const port = 496; //  5002;
+//  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+
+ // WHEN TESTNG .... 
+ // const port =  5002;
+ // const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
+
+
   const port = 496; //  5002 | 496;
   //const backend_host = 'STM-FCT01'
   // const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
@@ -181,7 +190,7 @@ function App() {
       setCompanyBoardMembers([]);
       console.log(data);
     } catch (error) {
-      console.error("Error fetching person data:", error);
+      console.error("Error fetching person details:", error);
     }
   };
 
@@ -415,6 +424,7 @@ function App() {
               <h3>
                 <u>Overlapping Board Members</u>
               </h3>
+              Click on name to get board details, click on Company to get Board Member list
               <table>
                 <thead>
                   <tr>
@@ -553,6 +563,8 @@ function App() {
               </table>
               {prevCompanyData.length > 0 && (
                 <>
+                <br></br>
+                <br></br>
                   <h3>
                     <u>Previous Board Members</u>
                   </h3>
