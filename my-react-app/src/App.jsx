@@ -21,12 +21,12 @@ function App() {
   const [companyBoardMembers, setCompanyBoardMembers] = useState([]);
 
 // NEED TO CHANGE THESE to ENVIRONMENT VARIABLES
-  const port = 496; //  5002;
-  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+//  const port = 496; //  5002;
+//  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
 
  // WHEN TESTNG .... 
-  //const port =  5002;
-  //const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
+  const port =  5002;
+  const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
 
 
   useEffect(() => {
@@ -37,10 +37,11 @@ function App() {
   }, []);
 
   const fetchMatrixData = () => {
-    if (selectedTicker == "") {
+    if (selectedTicker === "") {
       alert("Please select a company from the dropdown.");
       return;
     }
+  
     fetch(
       `http://${backend_host}:${port}/api/board-member-matrix?ticker=${selectedTicker}&includeExecs=${
         includeExecs ? 1 : 0
@@ -52,10 +53,12 @@ function App() {
           // Check if data is null, undefined, or an empty array
           alert("No data found for the selected company.");
         } else {
+          // alert(JSON.stringify(data, null, 2));
           fetchTransformedData(data);
         }
-      }) 
+      })
       .catch((error) => console.error("Error fetching matrix data:", error));
+  
     setCurrentCompanyData([]);
     setPrevCompanyData([]);
     setStoredProcedureData([]);
