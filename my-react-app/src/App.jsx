@@ -25,15 +25,9 @@ function App() {
 //  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
 
  // WHEN TESTNG .... 
- // const port =  5002;
- // const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
+  const port =  5002;
+  const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
 
-
-  const port = 496; //  5002 | 496;
-  //const backend_host = 'STM-FCT01'
-  // const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
-  const backend_host = "webapp.icrinc.com"; // import.meta.env.REACT_BACKEND_HOST; | localhost | webapp.icrinc.com
-  //  const port = process.env.REACT_BACKEND_SERVER ;
 
   useEffect(() => {
     fetch(`http://${backend_host}:${port}/api/companies`)
@@ -496,6 +490,8 @@ function App() {
 
           {companyBoardMembers.length > 0 && (
             <div className="table-container">
+              <br></br>
+              <br></br>
               <h3>
                 <u>Company Board Members</u>
               </h3>
@@ -609,6 +605,8 @@ function App() {
           )}
           {personData.length > 0 && (
             <div className="table-container">
+              <br></br>
+              <br></br>
               <h3>
                 <u>Person Company Data</u>
               </h3>
@@ -616,6 +614,8 @@ function App() {
                 <tbody>
                   <tr>
                     <th>Name</th>
+                    <th>Age</th>
+                    <th>Sex</th>
                     <th>Ticker</th>
                     <th>CompanyName</th>
                     <th>Title</th>
@@ -623,10 +623,13 @@ function App() {
                     <th>Industry</th>
                     <th>Compensation</th>
                     <th>IsClient</th>
+
                   </tr>
                   {personData.map((row, index) => (
                     <tr key={index}>
                       <td>{row.Name}</td>
+                      <td>{row.Age}</td>
+                      <td>{row.Sex}</td>
                       <td>{row.Ticker}</td>
                       <td>{row.CompanyName}</td>
                       <td>{row.Title}</td>

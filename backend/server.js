@@ -16,7 +16,7 @@ app.use(cors());
 const dbConfig = {
     user: 'xl_user', 
     password: 'xl_4u',
-    server: 'STM-FCT0101', //STM-DEVDB01 | STM-FCT0101
+    server: 'STM-FCT01', //STM-DEVDB01 | STM-FCT0101
     database: 'SCRATCH',
     options: {
       trustServerCertificate: true, // Trust self-signed certificate if needed
@@ -81,7 +81,7 @@ app.get('/api/companies', async (req, res) => {
         let result = await pool
           .request()
           .input('company', sql.VarChar, company)
-          .query(`SELECT Name, Title FROM icr_bigd.dbo.vwBoardMembers WHERE CompanyName = @company`);
+          .query(`SELECT Name, Title FROM icr_bigd.dbo.vwBoardMembers WHERE CompanyName = @company and MostRecent = 1`);
         res.json(result.recordset);
       } catch (err) {
         console.error(err);
@@ -96,7 +96,7 @@ app.get('/api/companies', async (req, res) => {
         let result = await pool
           .request()
           .input('name', sql.VarChar, name)
-          .query(`SELECT Name, Ticker, CompanyName, Title, Sector, Industry, Compensation, isClient from icr_bigd.dbo.vwboardmembers where name = @name`);
+          .query(`SELECT Name, Ticker, CompanyName, Title, Sector, Industry, Compensation, isClient ,Age, Sex from icr_bigd.dbo.vwboardmembers where name = @name`);
         res.json(result.recordset);
       } catch (err) {
         console.error(err);
