@@ -16,7 +16,7 @@ app.use(cors());
 const dbConfig = {
     user: 'xl_user', 
     password: 'xl_4u',
-    server: 'STM-FCT0101',
+    server: 'STM-FCT01',
     database: 'SCRATCH',
     options: {
       trustServerCertificate: true, // Trust self-signed certificate if needed
