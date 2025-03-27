@@ -22,15 +22,18 @@ function App() {
 
 // NEED TO CHANGE THESE to ENVIRONMENT VARIABLES
 //  const port = 496; //  5002;
-//  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+  const port = 496; //  5002;
+  const http_prefix = 'https://'
 
  // WHEN TESTNG .... 
-  const port =  5002;
-  const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
+  // const port =  5002;
+//  const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
+/// const http_prefix = 'http://'
 
 
   useEffect(() => {
-    fetch(`http://${backend_host}:${port}/api/companies`)
+    fetch(`${http_prefix}${backend_host}:${port}/api/companies`)
       .then((response) => response.json())
       .then((data) => setCompanies(data))
       .catch((error) => console.error("Error fetching companies:", error));
@@ -43,7 +46,7 @@ function App() {
     }
   
     fetch(
-      `http://${backend_host}:${port}/api/board-member-matrix?ticker=${selectedTicker}&includeExecs=${
+      `${http_prefix}${backend_host}:${port}/api/board-member-matrix?ticker=${selectedTicker}&includeExecs=${
         includeExecs ? 1 : 0
       }`
     )
@@ -71,7 +74,7 @@ function App() {
       return;
     }
     fetch(
-      `http://${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=1`
+      `${http_prefix}${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=1`
     )
       .then((response) => response.json())
       .then((data) => setCurrentCompanyData(data))
@@ -85,7 +88,7 @@ function App() {
 
   const fetchPrevCompanyData = () => {
     fetch(
-      `http://${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=0`
+      `${http_prefix}${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=0`
     )
       .then((response) => response.json())
       .then((data) => setPrevCompanyData(data))
@@ -104,7 +107,7 @@ function App() {
 
   const fetchCompanyBoardMembers = (CompanyName) => {
     fetch(
-      `http://${backend_host}:${port}/api/get-company-board-members?company=${CompanyName}`
+      `${http_prefix}${backend_host}:${port}/api/get-company-board-members?company=${CompanyName}`
     )
       .then((response) => response.json())
       .then((data) => setCompanyBoardMembers(data))
@@ -158,7 +161,7 @@ function App() {
   const executeStoredProcedure = async (procedureName) => {
     try {
       const response = await fetch(
-        `http://${backend_host}:${port}/api/${procedureName}`
+        `${http_prefix}${backend_host}:${port}/api/${procedureName}`
       );
       const data = await response.json();
       setStoredProcedureData(data);
@@ -187,7 +190,7 @@ function App() {
   const fetchPersonData = async (personName) => {
     try {
       const response = await fetch(
-        `http://${backend_host}:${port}/api/get-person-data?name=${personName}`
+        `${http_prefix}${backend_host}:${port}/api/get-person-data?name=${personName}`
       );
       const data = await response.json();
       setPersonData(data);
@@ -506,11 +509,14 @@ function App() {
                 <u>Company Board Members</u>
               </h3>
               <table>
-                <tbody>
-                  <tr>
+                <thead>
+                <tr>
                     <th>Name</th>
                     <th>Title</th>
                   </tr>
+
+                </thead>
+                <tbody>
                   {companyBoardMembers.map((row, index) => (
                     <tr key={index}>
                       <td>{row.Name}</td>
@@ -621,11 +627,12 @@ function App() {
                 <u>Person Company Data</u>
               </h3>
               <table>
-                <tbody>
-                  <tr>
+                <thead>
+                <tr>
                     <th>Name</th>
                     <th>Age</th>
                     <th>Sex</th>
+                    <th>Status</th>
                     <th>Ticker</th>
                     <th>CompanyName</th>
                     <th>Title</th>
@@ -633,13 +640,19 @@ function App() {
                     <th>Industry</th>
                     <th>Compensation</th>
                     <th>IsClient</th>
-
-                  </tr>
+                   </tr>
+                </thead>                
+                
+                <tbody>
+                  
                   {personData.map((row, index) => (
                     <tr key={index}>
                       <td>{row.Name}</td>
                       <td>{row.Age}</td>
                       <td>{row.Sex}</td>
+                      <td style={{ backgroundColor: row.Status === "Previous" ? "lightcoral" : "inherit" }}>
+                        {row.Status}
+                      </td>
                       <td>{row.Ticker}</td>
                       <td>{row.CompanyName}</td>
                       <td>{row.Title}</td>
