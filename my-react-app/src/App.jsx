@@ -27,9 +27,9 @@ function App() {
   const http_prefix = 'https://'
 
  // WHEN TESTNG .... 
-  // const port =  5002;
+//   const port =  5002;
 //  const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
-/// const http_prefix = 'http://'
+ // const http_prefix = 'http://'
 
 
   useEffect(() => {
@@ -317,8 +317,21 @@ function App() {
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
 
+
+  
+
   return (
     <div className="flex">
+    <div>
+      <p style={{marginLeft: '200px', color: '#666',  marginTop: '0px', marginBottom: '1px', padding: '0',  fontSize: '20px'}}>
+      <strong>Board Member Data</strong></p>
+      <p style={{marginLeft: '200px', color: '#666',  marginTop: '0px', marginBottom: '1px', padding: '0',  fontSize: '11px'}}>Explore interconnected board memberships, company histories, and organizational insights.</p>
+       <p style={{marginLeft: '200px', color: '#666', fontStyle: 'italic', marginTop: '0px', marginBottom: '1px', padding: '0',  fontSize: '11px'}}>
+       <strong>Note:</strong> Data is matched by full name, which may lead to potential inaccuracies.
+       <p style={{  marginLeft: '200px',  margin: '1px', padding: '0' , fontSize: '11px' }}>Individuals with the same name could be incorrectly identified as the same person.
+        Always verify and validate data before using it for critical analysis.</p>
+       </p> 
+     </div>
       <div className="main-container">
         <div className="button-panel">
           <div style={{ display: "flex", flexDirection: "row" }}>
