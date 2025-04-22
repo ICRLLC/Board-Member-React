@@ -64,7 +64,7 @@ app.get('/api/companies', async (req, res) => {
         .request()
         .input('ticker', sql.VarChar, ticker)
         .input('MostRecent', sql.Bit, mostRecent === '1')
-        .query(`SELECT Name, Ticker, Title, Age, Sex, Compensation, Sector 
+        .query(`SELECT Name, Ticker, Title, Age, Sex, Compensation, Sector , Bio
           FROM ICR_BIGD.dbo.vwBoardMembers 
           WHERE Ticker = @ticker AND MostRecent = @mostRecent`);
       res.json(result.recordset);
@@ -96,7 +96,7 @@ app.get('/api/companies', async (req, res) => {
         let result = await pool
           .request()
           .input('name', sql.VarChar, name)
-          .query(`SELECT Name, Ticker, CompanyName, Title, Sector, Industry, Compensation, isClient ,Age, Sex, case when MostRecent = 1 then 'Current' else 'Previous' end as [Status] from icr_bigd.dbo.vwboardmembers where name = @name`);
+          .query(`SELECT Name, Ticker, CompanyName, Title, Sector, Industry, Compensation, isClient ,Age, Sex, case when MostRecent = 1 then 'Current' else 'Previous' end as [Status], Bio from icr_bigd.dbo.vwboardmembers where name = @name`);
         res.json(result.recordset);
       } catch (err) {
         console.error(err);
