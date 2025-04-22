@@ -19,6 +19,7 @@ function App() {
   const [currentProcedure, setCurrentProcedure] = useState("");
   const [personData, setPersonData] = useState([]);
   const [companyBoardMembers, setCompanyBoardMembers] = useState([]);
+  const [bioData, setBioData] = useState([]);
 
 // NEED TO CHANGE THESE to ENVIRONMENT VARIABLES
 //  const port = 496; //  5002;
@@ -191,6 +192,20 @@ function App() {
       );
       const data = await response.json();
       setPersonData(data);
+      setCompanyBoardMembers([]);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching person details:", error);
+    }
+  };
+
+  const fetchBioInfo = async (personName) => {
+    try {
+      const response = await fetch(
+        `http://${backend_host}:${port}/api/get-bio-info?name=${personName}`
+      );
+      const data = await response.json();
+      setBioData(data);
       setCompanyBoardMembers([]);
       console.log(data);
     } catch (error) {
