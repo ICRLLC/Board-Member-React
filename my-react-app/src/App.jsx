@@ -23,7 +23,7 @@ function App() {
 // NEED TO CHANGE THESE to ENVIRONMENT VARIABLES
 //  const port = 496; //  5002;
   const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
-  const port = 496; //  5002;
+  const port = 496; //  5003;
   const http_prefix = 'https://'
 
  // WHEN TESTNG .... 
@@ -105,14 +105,18 @@ function App() {
     fetchPrevCompanyData();
   };
 
-  const fetchCompanyBoardMembers = (CompanyName) => {
-    fetch(
-      `${http_prefix}${backend_host}:${port}/api/get-company-board-members?company=${CompanyName}`
-    )
-      .then((response) => response.json())
-      .then((data) => setCompanyBoardMembers(data))
-      .catch((error) => console.error("Error fetching companies:", error));
-    setPersonData([]);
+  const fetchCompanyBoardMembers = async (CompanyName) => {
+    try {
+      const response = await fetch(
+        `${http_prefix}${backend_host}:${port}/api/get-company-board-members?company=${CompanyName}`
+      );
+      const data = await response.json();
+      setCompanyBoardMembers(data);
+      setPersonData([]);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching company board members:", error);
+    }
   };
 
   const fetchTransformedData = (data) => {
@@ -526,6 +530,7 @@ function App() {
                 <tr>
                     <th>Name</th>
                     <th>Title</th>
+                    <th>Bio</th>
                   </tr>
 
                 </thead>
@@ -534,6 +539,7 @@ function App() {
                     <tr key={index}>
                       <td>{row.Name}</td>
                       <td>{row.Title}</td>
+                      <td>{row.Bio}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -653,6 +659,7 @@ function App() {
                     <th>Industry</th>
                     <th>Compensation</th>
                     <th>IsClient</th>
+                    <th>Bio</th>
                    </tr>
                 </thead>                
                 
@@ -680,6 +687,7 @@ function App() {
                           : "-"}
                       </td>
                       <td>{row.isClient}</td>
+                      <td>{row.Bio}</td>
                     </tr>
                   ))}
                 </tbody>
