@@ -6,6 +6,8 @@ import ReactSelect from "react-select";
 import { useMemo } from "react";
 import { FixedSizeList as List } from "react-window";
 import React from "react";
+import { debounce, set } from 'lodash';
+import AsyncSelect from "react-select/async";
 
 function App() {
   const [companies, setCompanies] = useState([]);
@@ -19,17 +21,18 @@ function App() {
   const [currentProcedure, setCurrentProcedure] = useState("");
   const [personData, setPersonData] = useState([]);
   const [companyBoardMembers, setCompanyBoardMembers] = useState([]);
+  const [members, setMembers] = useState([]);
 
 // NEED TO CHANGE THESE to ENVIRONMENT VARIABLES
 //  const port = 496; //  5002;
-  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
-  const port = 496; //  5003;
-  const http_prefix = 'https://'
+//  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+//  const port = 496; //  5003;
+//  const http_prefix = 'https://'
 
  // WHEN TESTNG .... 
-//   const port =  5002;
-//  const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
- // const http_prefix = 'http://'
+  const port =  5002;
+  const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
+  const http_prefix = 'http://'
 
 
   useEffect(() => {
@@ -38,6 +41,31 @@ function App() {
       .then((data) => setCompanies(data))
       .catch((error) => console.error("Error fetching companies:", error));
   }, []);
+
+  const fetchMembers = (query) => {
+    fetch(`${http_prefix}${backend_host}:${port}/api/members?q=${encodeURIComponent(query)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setMembers(data)
+      })
+      .catch((error) => console.error("Error fetching members:", error));
+      setCurrentCompanyData([]);
+      setPrevCompanyData([]);
+      setStoredProcedureData([]);
+      setCurrentProcedure("");
+      setMatrixData([]);
+      setCompanyBoardMembers([]);
+  }
+
+  const handleSearchChange = debounce((event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const value = event.target.value.trim();
+      if (value) {
+        fetchMembers(value);
+      }
+    }
+  }, 300);
 
   const fetchMatrixData = () => {
     if (selectedTicker === "") {
@@ -66,6 +94,7 @@ function App() {
     setPrevCompanyData([]);
     setStoredProcedureData([]);
     setCurrentProcedure("");
+    setMembers([]);
   };
 
   const fetchCurrentCompanyData = () => {
@@ -103,6 +132,7 @@ function App() {
   const fetchAllCompanyData = () => {
     fetchCurrentCompanyData();
     fetchPrevCompanyData();
+    setMembers([]);
   };
 
   const fetchCompanyBoardMembers = async (CompanyName) => {
@@ -177,6 +207,7 @@ function App() {
     setPrevCompanyData([]);
     setCompanyBoardMembers([]);
     setPersonData([]);
+    setMembers([]);
     if (procedureName === "get-old-board-members") {
       setCurrentProcedure("Aging Board Members");
     }
@@ -199,6 +230,7 @@ function App() {
       const data = await response.json();
       setPersonData(data);
       setCompanyBoardMembers([]);
+      setMembers([]);
       console.log(data);
     } catch (error) {
       console.error("Error fetching person details:", error);
@@ -368,6 +400,13 @@ function App() {
             />
             <span>Include Executives</span>
           </label>
+          <label className="flex items-center space-x-2">
+              <input
+                type="text"
+                placeholder="Search Members"
+                onKeyDown={handleSearchChange}
+              />
+          </label>
           <button onClick={fetchMatrixData}>
             Fetch Overlapping Board Members
           </button>
@@ -440,6 +479,57 @@ function App() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+
+          {members.length > 0 && (
+            <div className="table-container">
+              
+              <h3>
+                <u>Member Search Results</u>
+              </h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Ticker</th>
+                    <th>Company</th>
+                    <th>Title</th>
+                    <th>Age</th>
+                    <th>Sex</th>
+                    <th>Compensation</th>
+                    <th>Sector</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {members.map((row, index) => (
+                    <tr key={index}>
+                      <td
+                            style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                            onClick={() => fetchPersonData(row.Name)}
+                      >
+                        {row.Name}
+                      </td>
+                      <td>{row.Ticker}</td>
+                      <td
+                        style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                        onClick={() => {
+                          fetchCompanyBoardMembers(row.CompanyName);
+                          setMembers([]);
+                        }}
+                        key={index}
+                      >
+                        {row.CompanyName}
+                      </td>
+                      <td>{row.Title}</td>
+                      <td>{row.Age === 0 ? "Unknown" : row.Age}</td>
+                      <td>{row.Sex}</td>
+                      <td>{row.Compensation === 0 ? "Unknown" : `$${row.Compensation.toLocaleString('en-US')}`}</td>
+                      <td>{row.Sector}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                </table>
             </div>
           )}
 

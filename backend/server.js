@@ -38,6 +38,27 @@ app.get('/api/companies', async (req, res) => {
     }
   });
   
+// API to get Board Members Data
+  app.get('/api/members', async (req, res) => {
+    const searchTerm = req.query.q || '';
+
+    try {
+      let pool = await sql.connect(dbConfig);
+      let result = await pool.request()
+      .input('search', sql.VarChar, `%${searchTerm}%`)
+      .query(
+        `SELECT Name, Ticker, CompanyName, Title, Age, Sex, Compensation, Sector 
+        FROM ICR_BIGD.dbo.vwBoardMembers
+        WHERE Name LIKE @search
+        ORDER BY Name`
+      );
+      res.json(result.recordset);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching data');
+    }
+  });
+
   // API to get Board Member Matrix Data
   app.get('/api/board-member-matrix', async (req, res) => {
     const { ticker, includeExecs } = req.query;
