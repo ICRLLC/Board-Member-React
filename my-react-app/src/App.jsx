@@ -58,12 +58,9 @@ function App() {
   }
 
   const handleSearchChange = debounce((event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      const value = event.target.value.trim();
-      if (value) {
-        fetchMembers(value);
-      }
+    const value = event.target.value.trim();
+    if (value.length >= 3) {
+      fetchMembers(value);
     }
   }, 300);
 
