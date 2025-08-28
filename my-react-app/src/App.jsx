@@ -24,15 +24,20 @@ function App() {
   const [members, setMembers] = useState([]);
 
 // NEED TO CHANGE THESE to ENVIRONMENT VARIABLES
-//  const port = 496; //  5002;
-//  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+  const port = 496; //  5002;
+  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
 //  const port = 496; //  5003;
-//  const http_prefix = 'https://'
+  const http_prefix = 'https://'
 
  // WHEN TESTNG .... 
-  const port =  5002;
-  const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
-  const http_prefix = 'http://'
+  // const port =  5002;
+  // const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
+  // const http_prefix = 'http://'
+
+  // WEB APP DEV SERVER TESTING
+//  const port =  5002;
+//  const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+ // const http_prefix = 'http://'
 
 
   useEffect(() => {
@@ -55,7 +60,6 @@ function App() {
       setCurrentProcedure("");
       setMatrixData([]);
       setCompanyBoardMembers([]);
-      setPersonData([]);
   }
 
   const handleSearchChange = debounce((event) => {
@@ -95,13 +99,13 @@ function App() {
     setMembers([]);
   };
 
-  const fetchCurrentCompanyData = (company) => {
-    if (selectedTicker == "" && company == null) {
+  const fetchCurrentCompanyData = () => {
+    if (selectedTicker == "") {
       alert("Please select a company from the dropdown");
       return;
     }
     fetch(
-      `${http_prefix}${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&company=${company}&mostRecent=1`
+      `${http_prefix}${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=1`
     )
       .then((response) => response.json())
       .then((data) => setCurrentCompanyData(data))
@@ -111,7 +115,6 @@ function App() {
     setCurrentProcedure("");
     setCompanyBoardMembers([]);
     setPersonData([]);
-
   };
 
   const fetchPrevCompanyData = () => {
@@ -402,7 +405,7 @@ function App() {
           <label className="flex items-center space-x-2">
               <input
                 type="text"
-                placeholder="Search Members"
+                placeholder="Search Board Members"
                 onKeyDown={handleSearchChange}
               />
           </label>
@@ -513,7 +516,7 @@ function App() {
                       <td
                         style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
                         onClick={() => {
-                          fetchCurrentCompanyData(row.CompanyName);
+                          fetchCompanyBoardMembers(row.CompanyName);
                           setMembers([]);
                         }}
                         key={index}
