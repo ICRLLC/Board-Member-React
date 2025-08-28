@@ -16,7 +16,7 @@ app.use(cors());
 const dbConfig = {
     user: 'xl_user', 
     password: 'xl_4u',
-    server: 'STM-FCT01', //STM-DEVDB01 | STM-FCT0101
+    server: 'STM-DEVDB01', //STM-DEVDB01 | STM-FCT0101
     database: 'SCRATCH',
     options: {
       trustServerCertificate: true, // Trust self-signed certificate if needed
@@ -78,16 +78,19 @@ app.get('/api/companies', async (req, res) => {
 
   // API to get Company Data
   app.get('/api/company-data', async (req, res) => {
-    const { ticker, mostRecent } = req.query;
+    const { ticker, company, mostRecent } = req.query;
     try {
       let pool = await sql.connect(dbConfig);
       let result = await pool
         .request()
         .input('ticker', sql.VarChar, ticker)
+        .input('company', sql.VarChar, company)
         .input('MostRecent', sql.Bit, mostRecent === '1')
         .query(`SELECT Name, Ticker, Title, Age, Sex, Compensation, Sector
           FROM ICR_BIGD.dbo.vwBoardMembers 
-          WHERE Ticker = @ticker AND MostRecent = @mostRecent`);
+          WHERE 1=1
+          AND (Ticker = @ticker OR CompanyName = @company)
+          AND MostRecent = @mostRecent`);
       res.json(result.recordset);
     } catch (err) {
       console.error(err);
