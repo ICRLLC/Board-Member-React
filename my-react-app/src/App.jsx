@@ -106,32 +106,32 @@ function App() {
       .then((response) => response.json())
       .then((data) => setCurrentCompanyData(data))
       .catch((error) => console.error("Error fetching companies:", error));
-    setMatrixData([]);
-    setStoredProcedureData([]);
-    setCurrentProcedure("");
-    setCompanyBoardMembers([]);
-    setPersonData([]);
-
   };
 
-  const fetchPrevCompanyData = () => {
+  const fetchPrevCompanyData = (company) => {
+    if (selectedTicker == "" && company == null) {
+      alert("Please select a company from the dropdown");
+      return;
+    }
     fetch(
-      `${http_prefix}${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&mostRecent=0`
+      `${http_prefix}${backend_host}:${port}/api/company-data?ticker=${selectedTicker}&company=${company}&mostRecent=0`
     )
       .then((response) => response.json())
       .then((data) => setPrevCompanyData(data))
-      .catch((error) => console.error("Error fetching companies:", error));
+      .catch((error) => console.error("Error fetching companies:", error));;
+  };
+
+  const fetchAllCompanyData = (company) => {
     setMatrixData([]);
     setStoredProcedureData([]);
     setCurrentProcedure("");
     setCompanyBoardMembers([]);
-    setPersonData([]);
-  };
-
-  const fetchAllCompanyData = () => {
-    fetchCurrentCompanyData();
-    fetchPrevCompanyData();
+    setPersonData([])
     setMembers([]);
+
+    fetchCurrentCompanyData(company);
+    fetchPrevCompanyData(company);
+    
   };
 
   const fetchCompanyBoardMembers = async (CompanyName) => {
@@ -513,7 +513,7 @@ function App() {
                       <td
                         style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
                         onClick={() => {
-                          fetchCurrentCompanyData(row.CompanyName);
+                          fetchAllCompanyData(row.CompanyName);
                           setMembers([]);
                         }}
                         key={index}
