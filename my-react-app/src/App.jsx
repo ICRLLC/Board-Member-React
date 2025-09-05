@@ -61,6 +61,7 @@ function App() {
   const handleSearchChange = debounce((event) => {
     const value = event.target.value.trim();
     if (value.length >= 3) {
+      setSelectedTicker("");
       fetchMembers(value);
     }
   }, 300);
