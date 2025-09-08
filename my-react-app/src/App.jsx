@@ -24,9 +24,9 @@ function App() {
   const [members, setMembers] = useState([]);
 
 // NEED TO CHANGE THESE to ENVIRONMENT VARIABLES
-  // const port = 496; //  5002;
-  // const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
-  // const http_prefix = 'https://'
+  const port = 496; //  5002;
+  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+  const http_prefix = 'https://'
 
  // WHEN TESTNG .... 
   //  const port =  5002;
@@ -38,9 +38,9 @@ function App() {
   //  const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
   //  const http_prefix = 'http://'
 
-   const port =  496;
-   const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
-   const http_prefix = 'https://'
+   //const port =  496;
+   //const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+   //const http_prefix = 'https://'
 
 
 
