@@ -24,19 +24,24 @@ function App() {
   const [members, setMembers] = useState([]);
 
 // NEED TO CHANGE THESE to ENVIRONMENT VARIABLES
-//  const port = 496; //  5002;
-//  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
-//  const http_prefix = 'https://'
+  // const port = 496; //  5002;
+  // const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+  // const http_prefix = 'https://'
 
  // WHEN TESTNG .... 
-   const port =  5002;
-   const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
-   const http_prefix = 'http://'
+  //  const port =  5002;
+  //  const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
+  //  const http_prefix = 'http://'
 
   // WEB APP DEV SERVER TESTING
-  // const port =  5002;
-  // const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
-  // const http_prefix = 'http://'
+  //  const port =  5002;
+  //  const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+  //  const http_prefix = 'http://'
+
+   const port =  496;
+   const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+   const http_prefix = 'https://'
+
 
 
   useEffect(() => {
@@ -109,10 +114,10 @@ function App() {
       .then((response) => response.json())
       .then((data) => setCurrentCompanyData(data))
       .catch((error) => console.error("Error fetching companies:", error));
-      };
+  };
 
   const fetchPrevCompanyData = (company) => {
-if (selectedTicker == "" && company == null) {
+    if (selectedTicker == "" && company == null) {
       alert("Please select a company from the dropdown");
       return;
     }
