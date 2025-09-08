@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import { FixedSizeList as List } from "react-window";
 import React from "react";
 import { debounce, set } from 'lodash';
-import AsyncSelect from "react-select/async";
+// import AsyncSelect from "react-select/async";
 
 function App() {
   const [companies, setCompanies] = useState([]);
@@ -21,11 +21,8 @@ function App() {
   const [currentProcedure, setCurrentProcedure] = useState("");
   const [personData, setPersonData] = useState([]);
   const [companyBoardMembers, setCompanyBoardMembers] = useState([]);
-<<<<<<< HEAD
+
   const [members, setMembers] = useState([]);
-=======
-  const [bioData, setBioData] = useState([]);
->>>>>>> origin/Temp
 
 // NEED TO CHANGE THESE to ENVIRONMENT VARIABLES
   const port = 496; //  5002;
@@ -248,7 +245,7 @@ function App() {
       console.error("Error fetching person details:", error);
     }
   };
-
+/*
   const fetchBioInfo = async (personName) => {
     try {
       const response = await fetch(
@@ -262,7 +259,7 @@ function App() {
       console.error("Error fetching person details:", error);
     }
   };
-
+*/
   const options = useMemo(() => {
     return companies.map((company) => ({
       value: company.Ticker,
