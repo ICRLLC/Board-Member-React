@@ -456,28 +456,62 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {storedProcedureData.map((row, index) => (
-                    <tr key={index}>
-                      {Object.entries(row).map(([key, value], i) => (
-                        <td key={i}>
-                          {key.toLowerCase() === "compensation" && value
-                            ? `$${new Intl.NumberFormat("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                              }).format(value)}`
-                            : key.toLowerCase().includes("_date") ||
-                              key.toLowerCase().includes("addeddt2") ||
-                              (key
-                                .toLowerCase()
-                                .includes("lastturnoverreportdate") &&
-                                value)
-                            ? new Date(value).toLocaleDateString("en-US")
-                            : value}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
+                {storedProcedureData.map((row, index) => (
+                  <tr key={index}>
+                    {Object.entries(row).map(([key, value], i) => {
+                      const lowerKey = key.toLowerCase();
+                      if (lowerKey === "companyname") {
+                        return (
+                          <td
+                            key={i}
+                            style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
+                            onClick={() => {
+                              fetchAllCompanyData(row.CompanyName);
+                            }}
+                          >
+                            {value}
+                          </td>
+                        );
+                      }
+                      if (lowerKey === "name") {
+                        return (
+                          <td
+                            key={i}
+                            style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
+                            onClick={() => {
+                              fetchPersonData(row.Name);
+                              setStoredProcedureData([]);
+                              setCurrentProcedure("");
+                            }}
+                          >
+                            {value}
+                          </td>
+                        )
+                      }
+                      if (lowerKey === "compensation" && value) {
+                        return (
+                          <td key={i}>
+                            {`$${new Intl.NumberFormat("en-US", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            }).format(value)}`}
+                          </td>
+                        );
+                      }
+                      if (
+                        (lowerKey.includes("_date") ||
+                          lowerKey.includes("addeddt2") ||
+                          lowerKey.includes("lastturnoverreportdate")) &&
+                        value
+                      ) {
+                        return <td key={i}>{new Date(value).toLocaleDateString("en-US")}</td>;
+                      }
+                      return <td key={i}>{value}</td>;
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+
               </table>
             </div>
           )}
@@ -764,7 +798,16 @@ function App() {
                         {row.Status}
                       </td>
                       <td>{row.Ticker}</td>
-                      <td>{row.CompanyName}</td>
+                      <td
+                        style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                        onClick={() => {
+                          fetchAllCompanyData(row.CompanyName);
+                          setPersonData([]);
+                        }}
+                        key={index}
+                      >
+                        {row.CompanyName}
+                      </td>
                       <td>{row.Title}</td>
                       <td>{row.Sector}</td>
                       <td>{row.Industry}</td>
