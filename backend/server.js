@@ -182,6 +182,23 @@ app.get('/api/companies', async (req, res) => {
     }
   });
 
+  app.get('/api/get-bio-info', async (req, res) => {
+    const { name } = req.query;
+    try {
+      let pool = await sql.connect(dbConfig);
+      let result = await pool
+        .request()
+        .input('name', sql.VarChar, name)
+        .query(`
+          SELECT * FROM icr_bigd.dbo.boardmemberbios WHERE
+          Name = @name
+          `);
+      res.json(result.recordset);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching data');
+    }
+  });
 
   app.listen(port, () => {
     console.log('Server is running on port', port);

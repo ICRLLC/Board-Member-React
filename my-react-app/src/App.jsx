@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import { FixedSizeList as List } from "react-window";
 import React from "react";
 import { debounce, set } from 'lodash';
-import AsyncSelect from "react-select/async";
+// import AsyncSelect from "react-select/async";
 
 function App() {
   const [companies, setCompanies] = useState([]);
@@ -21,18 +21,28 @@ function App() {
   const [currentProcedure, setCurrentProcedure] = useState("");
   const [personData, setPersonData] = useState([]);
   const [companyBoardMembers, setCompanyBoardMembers] = useState([]);
+
   const [members, setMembers] = useState([]);
 
 // NEED TO CHANGE THESE to ENVIRONMENT VARIABLES
-//  const port = 496; //  5002;
-//  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
-//  const port = 496; //  5003;
-//  const http_prefix = 'https://'
+  const port = 496; //  5002;
+  const backend_host = 'webapp.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+  const http_prefix = 'https://'
 
  // WHEN TESTNG .... 
-  const port =  5002;
-  const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
-  const http_prefix = 'http://'
+  //  const port =  5002;
+  //  const backend_host = 'localhost'; // import.meta.env.REACT_BACKEND_HOST;
+  //  const http_prefix = 'http://'
+
+  // WEB APP DEV SERVER TESTING
+  //  const port =  5002;
+  //  const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+  //  const http_prefix = 'http://'
+
+   //const port =  496;
+   //const backend_host = 'webappdev.icrinc.com'; // import.meta.env.REACT_BACKEND_HOST;
+   //const http_prefix = 'https://'
+
 
 
   useEffect(() => {
@@ -55,7 +65,6 @@ function App() {
       setCurrentProcedure("");
       setMatrixData([]);
       setCompanyBoardMembers([]);
-      setPersonData([]);
   }
 
   const handleSearchChange = debounce((event) => {
@@ -236,7 +245,21 @@ function App() {
       console.error("Error fetching person details:", error);
     }
   };
-
+/*
+  const fetchBioInfo = async (personName) => {
+    try {
+      const response = await fetch(
+        `http://${backend_host}:${port}/api/get-bio-info?name=${personName}`
+      );
+      const data = await response.json();
+      setBioData(data);
+      setCompanyBoardMembers([]);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching person details:", error);
+    }
+  };
+*/
   const options = useMemo(() => {
     return companies.map((company) => ({
       value: company.Ticker,
@@ -403,7 +426,7 @@ function App() {
           <label className="flex items-center space-x-2">
               <input
                 type="text"
-                placeholder="Search Members"
+                placeholder="Search Board Members"
                 onKeyDown={handleSearchChange}
               />
           </label>
